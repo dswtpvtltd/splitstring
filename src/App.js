@@ -36,9 +36,10 @@ function App() {
   };
 
   const validateValue = (value, index) => {
+    console.log("value: ", value);
     return {
       index,
-      error: !!isNaN(value),
+      error: !!isNaN(value) || value < 0,
     };
   };
 
