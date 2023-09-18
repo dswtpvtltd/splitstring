@@ -43,10 +43,13 @@ function App() {
   };
 
   const getError = () => {
-    const index = valueToArray().findIndex((item) => item.error.error === true);
+    const index = valueToArray()
+      .filter((item) => item.error.error === true)
+      .map((item) => parseInt(item.error.index) + 1);
+    console.log(index);
     return (
       <div>
-        {index > 0 ? (
+        {index.length > 0 ? (
           <div className="error">
             <div className="error-contents">
               <svg
@@ -79,7 +82,7 @@ function App() {
                   </g>
                 </g>
               </svg>
-              <div className="item">Line {index + 1} wrong amount</div>
+              <div className="item">Line {index.join(",")} wrong amount</div>
             </div>
           </div>
         ) : null}
