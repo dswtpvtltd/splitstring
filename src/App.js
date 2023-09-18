@@ -13,6 +13,7 @@ const hightlightWithLineNumbers = (input, language) =>
     .join("\n");
 
 function App() {
+  const [error, setError] = useState("");
   const [value, setValue] =
     useState(`0x2CB99F193549681e06C6770dDD5543812B4FaFE8 10
 0xEb0D38c92deB969b689acA94D962A07515CC5204 5
@@ -43,13 +44,46 @@ function App() {
 
   const getError = () => {
     const index = valueToArray().findIndex((item) => item.error.error === true);
-
     return (
-      <>
+      <div>
         {index > 0 ? (
-          <div className="error">Line {index + 1} wrong amount</div>
+          <div className="error">
+            <div className="error-contents">
+              <svg
+                height="25"
+                style={{
+                  overflow: "visible",
+                  enableBackground: "new 0 0 32 32",
+                }}
+                viewBox="0 0 32 32"
+                width="25"
+              >
+                <g>
+                  <g id="Error_1_">
+                    <g id="Error">
+                      <circle
+                        cx="16"
+                        cy="16"
+                        id="BG"
+                        r="16"
+                        style={{
+                          fill: "#D72828",
+                        }}
+                      />
+                      <path
+                        d="M14.5,25h3v-3h-3V25z M14.5,6v13h3V6H14.5z"
+                        id="Exclamatory_x5F_Sign"
+                        style={{ fill: "#fff" }}
+                      />
+                    </g>
+                  </g>
+                </g>
+              </svg>
+              <div className="item">Line {index + 1} wrong amount</div>
+            </div>
+          </div>
         ) : null}
-      </>
+      </div>
     );
   };
 
@@ -131,7 +165,7 @@ function App() {
   const getDuplicateCode = () => {
     const { arrayofduplicate } = normalize();
 
-    return (
+    setError(
       <>
         {arrayofduplicate.length > 0 ? (
           <div>
@@ -142,23 +176,25 @@ function App() {
                     Duplicate
                   </td>
                   <td align="right">
-                    <button
-                      className="error-button"
-                      onClick={() => keepFirstOne()}
-                    >
-                      Keep the first one
-                    </button>{" "}
-                    |{" "}
-                    <button
-                      className="error-button"
-                      onClick={() => combineBalance()}
-                    >
-                      Combine Balance
-                    </button>
+                    <div>
+                      <button
+                        className="error-button"
+                        onClick={() => keepFirstOne()}
+                      >
+                        Keep the first one
+                      </button>{" "}
+                      |{" "}
+                      <button
+                        className="error-button"
+                        onClick={() => combineBalance()}
+                      >
+                        Combine Balance
+                      </button>
+                    </div>
                   </td>
                 </tr>
                 <tr>
-                  <td colSpan={3} align="left" className="error">
+                  <td colSpan={2} align="left" className="error">
                     {arrayofduplicate.map((item) => {
                       return (
                         <React.Fragment key={item.code}>
@@ -198,24 +234,38 @@ function App() {
     setValue(code);
   };
 
+  const onSubmitHandler = (e) => {
+    e.preventDefault();
+    getDuplicateCode();
+  };
+
   return (
     <div className="App">
-      <Editor
-        highlight={(code) => hightlightWithLineNumbers(code, languages.js)}
-        onValueChange={(code) => onChangeHandler(code)}
-        onBlur={() => validate(value)}
-        value={value}
-        padding={10}
-        textareaId="codeArea"
-        className="editor"
-        style={{
-          fontSize: 18,
-          outline: 0,
-          height: 200,
-        }}
-      />
-      {getError()}
-      {getDuplicateCode()}
+      <form onSubmit={onSubmitHandler}>
+        <label className="label">Address with Amounts</label>
+        <Editor
+          highlight={(code) => hightlightWithLineNumbers(code, languages.js)}
+          onValueChange={(code) => onChangeHandler(code)}
+          onBlur={() => validate(value)}
+          value={value}
+          padding={10}
+          textareaId="codeArea"
+          className="editor"
+          style={{
+            fontSize: 18,
+            outline: 0,
+            height: 200,
+          }}
+        />
+        <div className="label">Separated by ',' or '' or '='</div>
+        {getError()}
+        {error}
+        <div className="button-container">
+          <button type="submit" className="next-button">
+            Next
+          </button>
+        </div>
+      </form>
     </div>
   );
 }

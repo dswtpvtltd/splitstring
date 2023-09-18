@@ -1,15 +1,17 @@
 .App {
-  text-align: center;
   margin: 30px;
 }
 .editor {
   counter-reset: line;
   border: 1px solid #ced4da;
+  margin: 10px 0;
+  background: #f5f6fa;
 }
 
 .editor #codeArea {
   outline: none;
   padding-left: 60px !important;
+  font-weight: 600 !important;
 }
 
 .editor pre {
@@ -19,12 +21,19 @@
 .editor .editorLineNumber {
   position: absolute;
   left: 0px;
-  color: #cccccc;
+  color: #9a9899;
   text-align: right;
   width: 40px;
-  font-weight: 100;
+  font-weight: 500;
 }
 
+.editor .token {
+  font-weight: 600;
+  color: #030303;
+}
+.label {
+  color: #4f5a7a;
+}
 .error {
   border: 1px solid red;
   text-align: left;
@@ -37,6 +46,13 @@
   color: red;
   font-size: 16px;
 }
+.error-contents {
+  display: flex;
+  gap: 10px;
+}
+.item {
+  padding: 4px;
+}
 .error-button {
   background: none;
   color: red;
@@ -44,4 +60,15 @@
   outline: none;
   cursor: pointer;
   font-size: 16px;
+}
+.next-button {
+  width: 100%;
+  padding: 10px 0px;
+  background: #1738a3;
+  color: #fff;
+  font-weight: 700;
+  font-size: 16px;
+  border-radius: 5px;
+  margin: 10px 0;
+  cursor: pointer;
 }
